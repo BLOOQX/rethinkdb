@@ -108,16 +108,16 @@ env | sort
 
 if [[ $NODE_TYPE == "proxy" ]]; then
 	echo "
-RUNNING RETHINGB as PROXY NODE
+RUNNING RETHINKDB as PROXY NODE
 "
 	#statements
 	rethinkdb proxy \
 		--no-update-check \
-		--bind all \
+		--bind $BIND_INTERFACE \
 		$NODE_LIST
 else
 		echo "
-RUNNING RETHINGB as DATA NODE
+RUNNING RETHINKDB as DATA NODE
 "
 	# creating custom data dir 'test' database error is solved
 	echo "Creating custom DATA DIR..."
@@ -128,6 +128,7 @@ RUNNING RETHINGB as DATA NODE
 		--directory /data \
 		--server-tag $SERVER_TAG \
 		--no-update-check \
-		--bind all \
+		--initial-password $ADMIN_PWD \
+		--bind $BIND_INTERFACE \
 		-c $CORES
 fi
